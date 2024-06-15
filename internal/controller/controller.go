@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gofiber/fiber/v3"
 	"simpleauth/internal/service"
+	"simpleauth/pkg/melog"
 )
 
 type Controllerer interface {
@@ -13,12 +14,13 @@ type Controllerer interface {
 }
 
 type controller struct {
+	mel *melog.Logger
 	service.Service
 }
 
-func NewController(repo service.Service) Controllerer {
+func NewController(mel *melog.Logger) Controllerer {
 	return &controller{
-		Service: service.NewService(repo),
+		Service: service.NewService(mel),
 	}
 }
 

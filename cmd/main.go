@@ -1,6 +1,8 @@
 package main
 
-import "simpleauth/app"
+import (
+	"simpleauth/app"
+)
 
 func main() {
 	app := app.NewApp()

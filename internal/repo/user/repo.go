@@ -7,19 +7,22 @@ import (
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"os"
+	"simpleauth/pkg/melog"
 )
 
 type repo struct {
 	store *pgx.Conn
+	mel   *melog.Logger
 }
 
-func NewRepo() Repo {
+func NewRepo(mel *melog.Logger) Repo {
 	store, err := Connect(context.Background())
 	if err != nil {
 		log.Fatal(err)
 	}
 	return &repo{
 		store: store,
+		mel:   mel,
 	}
 }
 func Connect(ctx context.Context) (*pgx.Conn, error) {

@@ -4,29 +4,32 @@ import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/log"
 	"simpleauth/internal/controller"
-	"simpleauth/internal/repo/user"
-	"simpleauth/internal/service"
+	"simpleauth/pkg/melog"
 )
 
 type Application interface {
 	Run()
 }
 type app struct {
-	con controller.Controllerer
+	con   controller.Controllerer
+	melog melog.Logger
 }
 
 func NewApp() *app {
-	con := controller.NewController(service.NewService(user.NewRepo()))
+	me := melog.New()
 	return &app{
-		con: con,
+		con:   controller.NewController(&me),
+		melog: me,
 	}
 }
 
 func (a *app) Run() {
 	r := fiber.New()
+	a.melog.Debug("starting server")
 	r.Get("/user", a.con.GetUser)
 	r.Get("/users", a.con.GetUsers)
 	r.Post("/user", a.con.AddUser)
 	r.Post("/social", a.con.AddSocial)
+	a.melog.Info("server started")
 	log.Fatal(r.Listen(":8080"))
 }

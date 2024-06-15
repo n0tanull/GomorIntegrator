@@ -4,6 +4,7 @@ import (
 	"context"
 	"simpleauth/internal/repo/client"
 	"simpleauth/internal/repo/user"
+	"simpleauth/pkg/melog"
 )
 
 type Service interface {
@@ -16,12 +17,14 @@ type Service interface {
 type service struct {
 	repo     user.Repo
 	provider client.SocialNetworkProvider
+	mel      *melog.Logger
 }
 
-func NewService(repo user.Repo) Service {
+func NewService(mel *melog.Logger) Service {
 	return &service{
-		repo:     repo,
+		repo:     user.NewRepo(mel),
 		provider: client.NewSocialProvider(),
+		mel:      mel,
 	}
 }
 
