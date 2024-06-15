@@ -12,10 +12,10 @@ import (
 
 type repo struct {
 	store *pgx.Conn
-	mel   *melog.Logger
+	mel   melog.Logger
 }
 
-func NewRepo(mel *melog.Logger) Repo {
+func NewRepo(mel melog.Logger) Repo {
 	store, err := Connect(context.Background())
 	if err != nil {
 		log.Fatal(err)

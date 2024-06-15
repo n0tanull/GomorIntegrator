@@ -14,11 +14,11 @@ type Controllerer interface {
 }
 
 type controller struct {
-	mel *melog.Logger
+	mel melog.Logger
 	service.Service
 }
 
-func NewController(mel *melog.Logger) Controllerer {
+func NewController(mel melog.Logger) Controllerer {
 	return &controller{
 		Service: service.NewService(mel),
 	}
@@ -28,6 +28,7 @@ func (c *controller) AddUser(con fiber.Ctx) error {
 	email := con.Query("email")
 	password := con.Query("password")
 	if email == "" || password == "" {
+		c.mel.Error("email or password is empty")
 		return fiber.ErrBadRequest
 	}
 	res, err := c.Service.AddUser(email, password, con.UserContext())

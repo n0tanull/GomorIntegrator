@@ -18,7 +18,7 @@ type app struct {
 func NewApp() *app {
 	me := melog.New()
 	return &app{
-		con:   controller.NewController(&me),
+		con:   controller.NewController(me),
 		melog: me,
 	}
 }

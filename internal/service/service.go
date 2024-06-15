@@ -17,10 +17,10 @@ type Service interface {
 type service struct {
 	repo     user.Repo
 	provider client.SocialNetworkProvider
-	mel      *melog.Logger
+	mel      melog.Logger
 }
 
-func NewService(mel *melog.Logger) Service {
+func NewService(mel melog.Logger) Service {
 	return &service{
 		repo:     user.NewRepo(mel),
 		provider: client.NewSocialProvider(),
